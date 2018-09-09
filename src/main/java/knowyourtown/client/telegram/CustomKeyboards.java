@@ -48,6 +48,22 @@ public class CustomKeyboards implements Tags {
         return keyboardMarkup;
     }
 
+    public static ReplyKeyboardMarkup getNewRowKeyboard3(String command1, String command2, String command3) {
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+
+        List<KeyboardRow> keyboard = new ArrayList();
+        KeyboardRow row = new KeyboardRow();
+
+        row.add(command1);
+        row.add(command2);
+        row.add(command3);
+        keyboard.add(row);
+
+        keyboardMarkup.setKeyboard(keyboard);
+
+        return keyboardMarkup;
+    }
+
     public static ReplyKeyboardMarkup getNewColumnKeyboard(String[] commands) {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         

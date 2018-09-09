@@ -164,8 +164,27 @@ public class BotBusiness implements Tags {
 
     }
 
+    public String createSuggestion(User contact, String title) {
+
+        ClientProcessCentric cp = new ClientProcessCentric(serviceUri);
+
+        // is the userid already registered?
+        if (!cp.userExist(contact.uid))
+            return genNotRegisteredResponse(contact);
+        
+        boolean result = cp.createSuggestion(contact.uid, title);
+        System.out.println(result);
+
+        return genCreateSuggestionSuccess();
+
+    }
+
     private String genUpdateSuggestionSuccess(String oldTitle) {
-        return new String("Suggestion " + oldTitle + " updated");
+        return new String("Suggestion " + oldTitle + " evaluated");
+    }
+
+    private String genCreateSuggestionSuccess() {
+        return new String("New suggestion created");
     }
 
     public String getSuggestions(User contact) {
@@ -213,7 +232,7 @@ public class BotBusiness implements Tags {
 
         String strOut = "Name : " + profile.get("name") +
                 "\nSurname : " + profile.get("surname") +
-                "\nHeight : " + profile.get("height") +
+                "\nSex : " + profile.get("sex") +
                 "\nBirthdate : " + profile.get("birthdate") +
                 "\nNationality : " + profile.get("nationality") +
                 "\nBirthplace : " + profile.get("birthplace");
@@ -267,54 +286,9 @@ public class BotBusiness implements Tags {
     }
 
     public String genUpdatePlace(String type) {
-        return new String("Insert new " + type + " value:");
+        return new String("Insert new " + type + " place :\n location : \n name :");
 
     }
-
-   /* public String getBmi(User contact) {
-
-        String res = "";
-
-
-        ClientProcessCentric cp = new ClientProcessCentric(this.serviceUri);
-
-        // is the userid already registered?
-        if (!cp.userExist(contact.uid))
-            return genNotRegisteredResponse(contact);
-
-        res = cp.getBmi(contact.uid);
-
-        if (res.equals(""))
-            return this.genErrorMessage("getBmi");
-
-        return genBmi(res);
-    }
-
-    private String genBmi(String bmijson) {
-
-        Gson gson = new Gson();
-        Bmi bmi = gson.fromJson(bmijson, Bmi.class);
-
-        String res = "";
-
-        res += "\nYour bmi value is ";
-        res += bmi.bmiValue + " and your ideal weight is ";
-        res += bmi.idealWeight + "\n";
-
-        res += "You are ";
-        res += bmi.bmiStatus + "\n";
-
-        res += "\nYou have a ";
-        res += bmi.bmiRisk + "\n";
-
-        res += "\nYour risk is ";
-        res += bmi.whrStatus + "\n";
-
-        res += "\nYou should eat ";
-        res += bmi.bmrValue + " calories per day";
-
-        return res; //TODO
-    }*/
 
     public String genRegBirthDate(String command) {
         return new String(command + "\nBirthdate (YYYY/MM//DD) : ");
@@ -385,7 +359,19 @@ public class BotBusiness implements Tags {
         return genDeleteSuggestionMessage(title);
     }
 
+    public String deletePlacesbyType(User contact, String type) {
+
+        ClientProcessCentric cp = new ClientProcessCentric(this.serviceUri);
+
+        cp.deletePlacesbyType(contact.uid, type);
+        return genDeletePlacesMessage(type);
+    }
+
     private String genDeleteSuggestionMessage(String title) {
         return new String("Suggestion " + title + " successfully removed");
+    }
+
+    private String genDeletePlacesMessage(String type) {
+        return new String("Places " + type + " successfully removed");
     }
 }

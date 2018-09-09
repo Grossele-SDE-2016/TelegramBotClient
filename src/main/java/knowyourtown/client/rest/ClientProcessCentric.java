@@ -16,9 +16,11 @@ public class ClientProcessCentric extends RestClient {
     public static final String USER_PROFILE = "/user/profile";
     public static final String NEW_PLACE = "/place/new";
     public static final String SHOW_PLACES = "/place/show";
+    public static final String DELETE_PLACES = "/place/delete";
     public static final String SHOW_SUGGESTIONS = "/suggestion/show";
     public static final String UPDATE_SUGGESTION = "/suggestion/new";
-    public static final String DELETE_SUGGESTION = "suggestion/delete";
+    public static final String CREATE_SUGGESTION = "/suggestion/newSugg";
+    public static final String DELETE_SUGGESTION = "/suggestion/delete";
 
     private String serviceURI = "";
 
@@ -69,6 +71,10 @@ public class ClientProcessCentric extends RestClient {
 
     public String getPlaces(Long uid, String type) {
         return getApi(SHOW_PLACES + "/" + uid + "/" + type);
+    }
+
+    public String deletePlacesbyType(Long uid, String type) {
+        return getApi(DELETE_PLACES + "/" + uid +"/"+ type);
     }
 
     public boolean userExist(Long uid) {
@@ -140,6 +146,10 @@ public class ClientProcessCentric extends RestClient {
 
     public Boolean updateSuggestion(Long uid, String oldTitle, String evaluation) {
         return newApi(UPDATE_SUGGESTION + "/" + uid + "/" + oldTitle, evaluation);
+    }
+
+    public Boolean createSuggestion(Long uid, String title) {
+        return newApi(CREATE_SUGGESTION + "/" + uid , title);
     }
 
     public boolean updatePerson(String user) {

@@ -19,7 +19,7 @@ public class Bot extends TelegramLongPollingBot implements Tags {
     private static final String BOT_TOKEN = "628512902:AAF5KzSvGOzCzhjXPMphbM9-GxGHGXKTDbM";
 
     // Services URI
-    private static final String URI_PROCESS_CENTRIC = "http://localhost:5700/knowyourtown-process-centric";
+    private static final String URI_PROCESS_CENTRIC = "http://localhost:5701";
     //private static final String URI_PROCESS_CENTRIC = "https://introsde-knowyourtown-p-centric.herokuapp.com";
 
     public void onUpdateReceived(Update update) {
@@ -90,20 +90,9 @@ public class Bot extends TelegramLongPollingBot implements Tags {
             if (res.equals(botBusiness.genErrorMessage(TAG_START)))
                 response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
 
-            //response.setText("Helloworld");
-        }
-         /*else if (command.equals(TAG_GETBMI)) {
-            res = botBusiness.getBmi(contact);
-
-            // if the user is not registered
-            if (!res.equals(botBusiness.genNotRegisteredResponse(contact)))
-                response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
-            // if something go wrong send default keyboard
-            if (res.equals(botBusiness.genErrorMessage(TAG_GETBMI)))
-                response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
-
             response.setText(res);
-        }*/ else if (command.equals(TAG_REGISTRATION)) {
+        }
+        else if (command.equals(TAG_REGISTRATION)) {
             res = botBusiness.genRegSurname();
             response.setText(TAG_REGISTRATION + "\n" + res);
             response.setReplyMarkup(CustomKeyboards.getForceReply());
@@ -134,19 +123,19 @@ public class Bot extends TelegramLongPollingBot implements Tags {
         } else if (command.equals(TAG_SHOWPLACES_VISITED)) {
             res = botBusiness.showPlaces(contact, "visited");
 
-            response.setReplyMarkup(CustomKeyboards.getNewRowKeyboard(TAG_UPDATEVISITED, TAG_BACK));
+            response.setReplyMarkup(CustomKeyboards.getNewRowKeyboard3(TAG_UPDATEVISITED, TAG_RESETVISITED, TAG_BACK));
 
             response.setText(res);
         } else if (command.equals(TAG_SHOWPLACES_TO_VISIT)) {
             res = botBusiness.showPlaces(contact, "to visit");
 
-            response.setReplyMarkup(CustomKeyboards.getNewRowKeyboard(TAG_UPDATETO_VISIT, TAG_BACK));
+            response.setReplyMarkup(CustomKeyboards.getNewRowKeyboard3(TAG_UPDATETO_VISIT, TAG_RESETTO_VISIT, TAG_BACK));
 
             response.setText(res);
         } else if (command.equals(TAG_SHOWPLACES_DREAM)) {
             res = botBusiness.showPlaces(contact, "dream");
 
-            response.setReplyMarkup(CustomKeyboards.getNewRowKeyboard(TAG_UPDATEDREAM, TAG_BACK));
+            response.setReplyMarkup(CustomKeyboards.getNewRowKeyboard3(TAG_UPDATEDREAM, TAG_RESETDREAM, TAG_BACK));
 
             response.setText(res);
         } else if (command.equals(TAG_UPDATEVISITED)) {
@@ -168,7 +157,27 @@ public class Bot extends TelegramLongPollingBot implements Tags {
             response.setReplyMarkup(CustomKeyboards.getForceReply());
 
             response.setText(res);
-        }/* else if (command.equals(TAG_UPDATEWAIST)) {
+        }else if (command.equals(TAG_RESETVISITED)) {
+            //res = botBusiness.updatePlace(contact, "weight");
+            res = botBusiness.deletePlacesbyType(contact,"visited");
+
+            response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
+
+            response.setText(res);
+        } else if (command.equals(TAG_RESETTO_VISIT)) {
+            res = botBusiness.deletePlacesbyType(contact,"to visit");
+
+            response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
+
+            response.setText(res);
+        } else if (command.equals(TAG_RESETDREAM)) {
+            res = botBusiness.deletePlacesbyType(contact,"dream");
+
+            response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
+
+            response.setText(res);
+        }
+        /* else if (command.equals(TAG_UPDATEWAIST)) {
             res = botBusiness.genUpdatePlace("waist");
 
             response.setReplyMarkup(CustomKeyboards.getForceReply());
@@ -234,35 +243,18 @@ public class Bot extends TelegramLongPollingBot implements Tags {
             response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
 
             response.setText(res);
-        } else if (command.equals(TAG_SUGGESTIONS_NEW) || command.split(" ")[0].equals(TAG_SUGGESTIONS_UPDATE)) {
-            try {
+        } else if (command.equals(TAG_SUGGESTIONS_NEW)) {
 
-                String title = "";
-                String[] vCommand = command.split(" ");
-                for (int i = 1; i < vCommand.length; i++) {
-                    title += vCommand[i];
-                    if (i < vCommand.length - 1)
-                        title += " ";
-                }
+            response.setText(TAG_SUGGESTIONS_NEW + "\n" + "New Title : ");
+            response.setReplyMarkup(CustomKeyboards.getForceReply());
 
-                res = TAG_SUGGESTIONS_UPDATE + " " + title;
+            
+        }else if (command.split(" ")[0].equals(TAG_SUGGESTIONS_UPDATE)) {
+            response.setText(command + "\n" + "New evaluation : ");
+            response.setReplyMarkup(CustomKeyboards.getForceReply());
 
-                String[] rows = command.split("\n");
-
-
-                //if(rows.length == 1)
-                res += "\nNew Title : ";
-                //else if(rows.length == 3)
-                //   res += "\nNew Description :";
-                //else if(rows.length == 5)
-                //   res += "Condition (insert < or >)";
-
-                response.setReplyMarkup(CustomKeyboards.getForceReply());
-            } catch (Exception e) {
-
-            }
-            response.setText(res);
-        } else if (command.split(" ")[0].equals(TAG_SUGGESTIONS_DELETE)) {
+        }
+         else if (command.split(" ")[0].equals(TAG_SUGGESTIONS_DELETE)) {
 
             // get suggestion title
             String title = "";
@@ -336,25 +328,26 @@ public class Bot extends TelegramLongPollingBot implements Tags {
                 response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
                 // TODO AGGIUNGERE CONTROLLI
                 response.setText(res);
-            } */else if (replyMessage.split(" ")[0].equals(TAG_SUGGESTIONS_UPDATE)) {
+            } */else if (replyMessage.startsWith(TAG_SUGGESTIONS_NEW)) {
+
+                res = replyMessage;
+
+                res = botBusiness.createSuggestion(contact, command);
+
+                response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
+
+
+                response.setText(res);
+            } else if (replyMessage.split(" ")[0].equals(TAG_SUGGESTIONS_UPDATE)) {
 
                 res = replyMessage + command;
 
                 String[] rows = res.split("\n");
 
-                // if(rows.length == 1)
-                //   res += "\nNew Title :";
-                //else
 
-                response.setReplyMarkup(CustomKeyboards.getForceReply());
+                res = botBusiness.updateSuggestion(contact, rows);
+                response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
 
-                if (rows.length == 2) {
-                    res = botBusiness.updateSuggestion(contact, rows);
-
-                    response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
-                }
-                else
-                   res += "\nEvaluation :";
 
                 response.setText(res);
             }

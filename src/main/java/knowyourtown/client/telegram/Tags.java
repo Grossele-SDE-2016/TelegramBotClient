@@ -11,7 +11,7 @@ public interface Tags {
     //private static final String TAG_GOALS = "/goals";
     String TAG_SUGGESTIONS_UPDATE = "/evaluate";
     String TAG_SUGGESTIONS_DELETE = "/delete";
-    String TAG_SUGGESTIONS_NEW = "/new suggestion";
+    String TAG_SUGGESTIONS_NEW = "/newsuggestion";
     //String TAG_REPLY_GOALS_UPDATE1 = "1. Insert goal title";
     //String TAG_REPLY_GOALS_UPDATE2 = "2. Now insert the description for the goal ";
    // String TAG_REPLY_GOALS_UPDATE3 = "3. Goal saved";
@@ -37,15 +37,17 @@ public interface Tags {
     String TAG_SHOWPLACES_DREAM = "/showdream";
 
 
-    String TAG_SHOWSUGGESTIONS = "/sugestions";
-    // String TAG_GETBMI = "/bmi";
+    String TAG_SHOWSUGGESTIONS = "/suggestions";
     //String TAG_ADDMEASURE = "/update";
 
     //String TAG_MEASURETYPE = "/measuretype";
     //String TAG_UPDATEMEASURE = "/update";
-    String TAG_UPDATEVISITED = "/update visited";
-    String TAG_UPDATETO_VISIT = "/update tovisit";
-    String TAG_UPDATEDREAM = "/update dream";
+    String TAG_UPDATEVISITED = "/create visited";
+    String TAG_UPDATETO_VISIT = "/create tovisit";
+    String TAG_UPDATEDREAM = "/create dream";
+    String TAG_RESETVISITED = "/reset visited";
+    String TAG_RESETTO_VISIT = "/reset tovisit";
+    String TAG_RESETDREAM = "/reset dream";
    // String TAG_UPDATEWAIST = "/update waist";
     //String TAG_UPDATEHIP = "/update hip";
 
