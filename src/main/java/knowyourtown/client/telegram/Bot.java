@@ -351,7 +351,7 @@ public class Bot extends TelegramLongPollingBot implements Tags {
 
                 response.setText(res);
             }
-        } else {// TODO measures , suggestions , adaptor
+        } else {// TODO  suggestions , adaptor
             //response = null; //TODO
             response.setReplyMarkup(CustomKeyboards.getDefaultKeyboard());
             res = botBusiness.back(contact);

@@ -16,7 +16,7 @@ A telegram bot client for knwoyoutown application
 Return firstname, surname, height, birthday, nationality, birthplace 
 
 #### /place
-1. Select type -> Show last 15 measures of that type
+1. Select type -> Show last 15 places of that type
 2. Insert new value 
 
 #### /suggestions

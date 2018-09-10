@@ -29,27 +29,6 @@ public class ClientProcessCentric extends RestClient {
         this.serviceURI = serviceURI;
     }
 
-    /*public String getMeasures() {
-
-        return getApi(USER_PROFILE+"/"+uid);
-
-        Response response;
-        int status;
-        String res = "";
-
-        response = service.path(SHOW_PLACES)
-                .request()
-                .accept(MediaType.APPLICATION_JSON)
-                .get();
-
-        status = response.getStatus();
-
-        if (status == 200) {
-            res = response.readEntity(String.class);
-        }
-
-        return res;
-    }*/
 
     public boolean newPlace(String place) {
         return newApi(NEW_PLACE, place);

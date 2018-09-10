@@ -291,7 +291,7 @@ public class BotBusiness implements Tags {
     }
 
     public String genRegBirthDate(String command) {
-        return new String(command + "\nBirthdate (YYYY/MM//DD) : ");
+        return new String(command + "\nBirthdate (YYYY/MM/DD) : ");
     }
 
     public String genRegSurname() {
